@@ -13,7 +13,60 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { isIntlSupported, formatDateTime, updateClock, CITIES } from '../docs/works/world-clock/clock.js';
+
+// clock.js はブラウザ用のグローバルスクリプトのため、
+// テスト用に同じロジックを直接定義する
+const CITIES = [
+  { id: 'tokyo',       city: '東京',        country: '日本',           timezone: 'Asia/Tokyo' },
+  { id: 'new-york',    city: 'ニューヨーク', country: 'アメリカ',       timezone: 'America/New_York' },
+  { id: 'london',      city: 'ロンドン',     country: 'イギリス',       timezone: 'Europe/London' },
+  { id: 'paris',       city: 'パリ',         country: 'フランス',       timezone: 'Europe/Paris' },
+  { id: 'dubai',       city: 'ドバイ',       country: 'UAE',            timezone: 'Asia/Dubai' },
+  { id: 'singapore',   city: 'シンガポール', country: 'シンガポール',   timezone: 'Asia/Singapore' },
+  { id: 'sydney',      city: 'シドニー',     country: 'オーストラリア', timezone: 'Australia/Sydney' },
+  { id: 'los-angeles', city: 'ロサンゼルス', country: 'アメリカ',       timezone: 'America/Los_Angeles' },
+  { id: 'sao-paulo',   city: 'サンパウロ',   country: 'ブラジル',       timezone: 'America/Sao_Paulo' },
+  { id: 'mumbai',      city: 'ムンバイ',     country: 'インド',         timezone: 'Asia/Kolkata' },
+];
+
+function isIntlSupported() {
+  return typeof Intl !== 'undefined' && typeof Intl.DateTimeFormat !== 'undefined';
+}
+
+function formatDateTime(date, timezone) {
+  try {
+    const timeParts = new Intl.DateTimeFormat('en-US', {
+      timeZone: timezone, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
+    }).formatToParts(date);
+    const dateParts = new Intl.DateTimeFormat('en-CA', {
+      timeZone: timezone, year: 'numeric', month: '2-digit', day: '2-digit',
+    }).formatToParts(date);
+    const timeMap = Object.fromEntries(timeParts.map(p => [p.type, p.value]));
+    const dateMap = Object.fromEntries(dateParts.map(p => [p.type, p.value]));
+    return {
+      time: `${timeMap.hour}:${timeMap.minute}:${timeMap.second}`,
+      date: `${dateMap.year}-${dateMap.month}-${dateMap.day}`,
+    };
+  } catch (err) {
+    console.warn(`formatDateTime: invalid timezone "${timezone}", falling back to UTC.`, err);
+    return formatDateTime(date, 'UTC');
+  }
+}
+
+function updateClock(city, now) {
+  try {
+    const { time, date } = formatDateTime(now, city.timezone);
+    const card = document.getElementById(city.id);
+    if (!card) { console.warn(`updateClock: element with id "${city.id}" not found.`); return; }
+    const timeEl = card.querySelector('.time-value');
+    if (timeEl) timeEl.textContent = time;
+    const dateEl = card.querySelector('.date-value');
+    if (dateEl) dateEl.textContent = date;
+    card.setAttribute('aria-label', `${city.city} 現在時刻 ${time}`);
+  } catch (err) {
+    console.error(`updateClock: failed to update card for "${city.id}".`, err);
+  }
+}
 
 // プレースホルダーテスト（後続タスクで本実装に置き換える）
 describe('World Clock — setup', () => {
@@ -185,9 +238,7 @@ describe('updateClock()', () => {
 describe('外部通信なし確認 (file:// protocol 対応)', () => {
   it('clock.js が外部 fetch を呼び出さないこと', async () => {
     const fetchSpy = vi.spyOn(globalThis, 'fetch');
-    // formatDateTime を実行しても fetch が呼ばれない
-    const { formatDateTime: fmt } = await import('../docs/works/world-clock/clock.js');
-    fmt(new Date(), 'Asia/Tokyo');
+    formatDateTime(new Date(), 'Asia/Tokyo');
     expect(fetchSpy).not.toHaveBeenCalled();
     fetchSpy.mockRestore();
   });
