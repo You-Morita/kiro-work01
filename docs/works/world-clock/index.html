@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Clock</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>World Clock</h1>
+  </header>
+
+  <main id="clock-grid">
+    <article id="tokyo" class="clock-card" aria-label="東京">
+      <header class="card-header">
+        <span class="city-name">東京</span>
+        <span class="country-name">日本</span>
+      </header>
+      <div class="time-display" role="timer" aria-live="polite" aria-atomic="true">
+        <span class="time-value">--:--:--</span>
+      </div>
+      <div class="date-display">
+        <span class="date-value">----/--/--</span>
+      </div>
+    </article>
+
+    <article id="new-york" class="clock-card" aria-label="ニューヨーク">
+      <header class="card-header">
+        <span class="city-name">ニューヨーク</span>
+        <span class="country-name">アメリカ</span>
+      </header>
+      <div class="time-display" role="timer" aria-live="polite" aria-atomic="true">
+        <span class="time-value">--:--:--</span>
+      </div>
+      <div class="date-display">
+        <span class="date-value">----/--/--</span>
+      </div>
+    </article>
+
+    <article id="london" class="clock-card" aria-label="ロンドン">
+      <header class="card-header">
+        <span class="city-name">ロンドン</span>
+        <span class="country-name">イギリス</span>
+      </header>
+      <div class="time-display" role="timer" aria-live="polite" aria-atomic="true">
+        <span class="time-value">--:--:--</span>
+      </div>
+      <div class="date-display">
+        <span class="date-value">----/--/--</span>
+      </div>
+    </article>
+
+    <article id="paris" class="clock-card" aria-label="パリ">
+      <header class="card-header">
+        <span class="city-name">パリ</span>
+        <span class="country-name">フランス</span>
+      </header>
+      <div class="time-display" role="timer" aria-live="polite" aria-atomic="true">
+        <span class="time-value">--:--:--</span>
+      </div>
+      <div class="date-display">
+        <span class="date-value">----/--/--</span>
+      </div>
+    </article>
+
+    <article id="dubai" class="clock-card" aria-label="ドバイ">
+      <header class="card-header">
+        <span class="city-name">ドバイ</span>
+        <span class="country-name">UAE</span>
+      </header>
+      <div class="time-display" role="timer" aria-live="polite" aria-atomic="true">
+        <span class="time-value">--:--:--</span>
+      </div>
+      <div class="date-display">
+        <span class="date-value">----/--/--</span>
+      </div>
+    </article>
+
+    <article id="singapore" class="clock-card" aria-label="シンガポール">
+      <header class="card-header">
+        <span class="city-name">シンガポール</span>
+        <span class="country-name">シンガポール</span>
+      </header>
+      <div class="time-display" role="timer" aria-live="polite" aria-atomic="true">
+        <span class="time-value">--:--:--</span>
+      </div>
+      <div class="date-display">
+        <span class="date-value">----/--/--</span>
+      </div>
+    </article>
+
+    <article id="sydney" class="clock-card" aria-label="シドニー">
+      <header class="card-header">
+        <span class="city-name">シドニー</span>
+        <span class="country-name">オーストラリア</span>
+      </header>
+      <div class="time-display" role="timer" aria-live="polite" aria-atomic="true">
+        <span class="time-value">--:--:--</span>
+      </div>
+      <div class="date-display">
+        <span class="date-value">----/--/--</span>
+      </div>
+    </article>
+
+    <article id="los-angeles" class="clock-card" aria-label="ロサンゼルス">
+      <header class="card-header">
+        <span class="city-name">ロサンゼルス</span>
+        <span class="country-name">アメリカ</span>
+      </header>
+      <div class="time-display" role="timer" aria-live="polite" aria-atomic="true">
+        <span class="time-value">--:--:--</span>
+      </div>
+      <div class="date-display">
+        <span class="date-value">----/--/--</span>
+      </div>
+    </article>
+
+    <article id="sao-paulo" class="clock-card" aria-label="サンパウロ">
+      <header class="card-header">
+        <span class="city-name">サンパウロ</span>
+        <span class="country-name">ブラジル</span>
+      </header>
+      <div class="time-display" role="timer" aria-live="polite" aria-atomic="true">
+        <span class="time-value">--:--:--</span>
+      </div>
+      <div class="date-display">
+        <span class="date-value">----/--/--</span>
+      </div>
+    </article>
+
+    <article id="mumbai" class="clock-card" aria-label="ムンバイ">
+      <header class="card-header">
+        <span class="city-name">ムンバイ</span>
+        <span class="country-name">インド</span>
+      </header>
+      <div class="time-display" role="timer" aria-live="polite" aria-atomic="true">
+        <span class="time-value">--:--:--</span>
+      </div>
+      <div class="date-display">
+        <span class="date-value">----/--/--</span>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <p>世界10都市の現在時刻をリアルタイムで表示します。</p>
+  </footer>
+
+  <div id="tz-warning" role="alert" hidden>
+    タイムゾーン非対応のブラウザです
+  </div>
+
+  <script src="clock.js" defer></script>
+</body>
+</html>

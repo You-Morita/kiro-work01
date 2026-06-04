@@ -1,0 +1,189 @@
+/* =============================================================
+   World Clock — style.css
+   ダークテーマ・レスポンシブレイアウト・デジタル時計スタイル
+   ============================================================= */
+
+/* ---------------------------------------------------------------
+   1. CSS カスタムプロパティ（デザイントークン）
+--------------------------------------------------------------- */
+:root {
+  /* ダークテーマ基本色 */
+  --color-bg:          #0d0d0d;   /* ページ背景 */
+  --color-surface:     #1a1a1a;   /* カード背景 */
+  --color-surface-alt: #222222;   /* カードヘッダー */
+  --color-border:      #333333;   /* ボーダー */
+
+  /* テキスト色（WCAG 2.1 AA 基準 4.5:1 以上） */
+  --color-text-primary:   #e0e0e0; /* 主テキスト（コントラスト比 12:1 以上） */
+  --color-text-secondary: #a0a0a0; /* 副テキスト（コントラスト比 5:1 以上） */
+  --color-accent:         #00ff88; /* 時刻表示アクセント（コントラスト比 10:1 以上） */
+
+  /* フォント */
+  --font-mono: 'Courier New', Courier, monospace;
+  --font-sans: system-ui, sans-serif;
+
+  /* サイズ（clamp でレスポンシブ対応） */
+  --font-time: clamp(2rem, 4vw, 3rem);       /* 時刻（最小 2rem 保証） */
+  --font-date: clamp(0.85rem, 1.5vw, 1rem);
+  --font-city: clamp(1rem, 2vw, 1.25rem);
+  --radius:    8px;
+  --gap:       1rem;
+}
+
+/* ---------------------------------------------------------------
+   2. ベーススタイル（リセット・body）
+--------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.5;
+}
+
+/* ---------------------------------------------------------------
+   3. header
+--------------------------------------------------------------- */
+header {
+  background-color: var(--color-surface-alt);
+  border-bottom: 1px solid var(--color-border);
+  padding: 1rem 1.5rem;
+  text-align: center;
+}
+
+header h1 {
+  font-family: var(--font-mono);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: var(--color-accent);
+  letter-spacing: 0.15em;
+  font-weight: 700;
+}
+
+/* ---------------------------------------------------------------
+   4. footer
+--------------------------------------------------------------- */
+footer {
+  background-color: var(--color-surface-alt);
+  border-top: 1px solid var(--color-border);
+  padding: 0.75rem 1.5rem;
+  text-align: center;
+  margin-top: auto;
+}
+
+footer p {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+/* ---------------------------------------------------------------
+   5. Clock Grid & Clock Card
+--------------------------------------------------------------- */
+#clock-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--gap);
+  padding: 1.5rem;
+  flex: 1;
+}
+
+.clock-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: border-color 0.2s ease;
+}
+
+.clock-card:hover {
+  border-color: var(--color-accent);
+}
+
+/* カードヘッダー（都市名・国名） */
+.card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.city-name {
+  font-size: var(--font-city);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.country-name {
+  font-size: var(--font-date);
+  color: var(--color-text-secondary);
+}
+
+/* 時刻表示 */
+.time-display {
+  padding: 0.5rem 0;
+}
+
+.time-value {
+  font-family: var(--font-mono);
+  font-size: var(--font-time); /* clamp(2rem, 4vw, 3rem) — 最小 2rem 保証 */
+  color: var(--color-accent);
+  letter-spacing: 0.05em;
+  display: block;
+}
+
+/* 日付表示 */
+.date-display {
+  margin-top: 0.25rem;
+}
+
+.date-value {
+  font-family: var(--font-mono);
+  font-size: var(--font-date);
+  color: var(--color-text-secondary);
+}
+
+/* フォールバック警告 */
+#tz-warning {
+  background-color: #3a1a00;
+  border: 1px solid #ff8800;
+  color: #ffaa44;
+  padding: 0.75rem 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* ---------------------------------------------------------------
+   6. レスポンシブレイアウト
+--------------------------------------------------------------- */
+/* 320px〜: auto-fill が 1列に自動調整 */
+
+@media (min-width: 640px) {
+  #clock-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+@media (min-width: 960px) {
+  #clock-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  #clock-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
