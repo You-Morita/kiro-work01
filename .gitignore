@@ -1,0 +1,13 @@
+# 環境変数・機密情報
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# エディタ
+.vscode/
+*.suo
+*.user
